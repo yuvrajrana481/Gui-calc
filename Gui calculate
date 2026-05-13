@@ -1,0 +1,70 @@
+import random
+
+class Question:
+    def _init_(self, question, options, answer):
+        self.question = question
+        self.options = options
+        self.answer = answer
+
+    def display(self):
+        print("\n" + self.question)
+        for i, option in enumerate(self.options, 1):
+            print(f"{i}. {option}")
+
+    def check_answer(self, user_choice):
+        return self.options[user_choice - 1] == self.answer
+
+
+class QuizGame:
+    def _init_(self):
+        self.score = 0
+        self.questions = self.load_questions()
+
+    def load_questions(self):
+        return [
+            Question("What is the capital of India?",
+                     ["Delhi", "Mumbai", "Chennai", "Kolkata"], "Delhi"),
+
+            Question("Which language is used in AI/ML?",
+                     ["Python", "Java", "C++", "HTML"], "Python"),
+
+            Question("What is 2 + 2?",
+                     ["3", "4", "5", "6"], "4"),
+
+            Question("Which library is used for machine learning?",
+                     ["NumPy", "Pandas", "Scikit-learn", "Matplotlib"], "Scikit-learn"),
+
+            Question("Who is known as the father of AI?",
+                     ["Alan Turing", "Elon Musk", "Bill Gates", "Mark Zuckerberg"], "Alan Turing")
+        ]
+
+    def start(self):
+        print(" Welcome to the Quiz Game!\n")
+        random.shuffle(self.questions)
+
+        for q in self.questions:
+            q.display()
+            try:
+                choice = int(input("Enter your answer (1-4): "))
+                if q.check_answer(choice):
+                    print(" Correct!")
+                    self.score += 1
+                else:
+                    print(f" Wrong! Correct answer: {q.answer}")
+            except:
+                print("Invalid input!")
+
+        print("\n🏁 Quiz Finished!")
+        print(f"Your Score: {self.score}/{len(self.questions)}")
+
+        if self.score == len(self.questions):
+            print(" Excellent!")
+        elif self.score >= len(self.questions) // 2:
+            print(" Good job!")
+        else:
+            print(" Keep practicing!")
+
+
+if _name_ == "_main_":
+    game = QuizGame()
+    game.start()
